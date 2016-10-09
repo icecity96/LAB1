@@ -12,31 +12,31 @@ public class Main {
 		while(true)
 		{
 			System.out.println(">");
-			Scanner s = new Scanner(System.in);
+			Scanner s = new Scanner(System.in);//get the input String
 			String line = s.nextLine();
 			if(line.equals(end))
 			{
 				break;
 			}
-			Pattern pat1 = Pattern.compile("^!simplify\\p{sapce}.");
+			Pattern pat1 = Pattern.compile("^!simplify\\p{sapce}.");//to judge whether the order is to simplify
 			Matcher mat1 = pat1.matcher(line);
 			boolean res1 = mat1.matches();
 			
-			Pattern pat2 = Pattern.compile("^!d/d.");
+			Pattern pat2 = Pattern.compile("^!d/d.");//to judge whether the order is to differentiate
 			Matcher mat2 = pat2.matcher(line);
 			boolean res2 = mat2.matches();
 			
-			if(res1 == true)
+			if(res1 == true)//if the order is to simplify
 			{
 				String ord1 = line.substring(10);
 				System.out.println(polynomial.simplify(ord1));
 			}
-			else if(res2 == true)
+			else if(res2 == true)//if the order is to differentiate
 			{
 				String ord2 = line.substring(4);
 				System.out.println(polynomial.derivative(ord2));
 			}
-			else
+			else//if the order is a polynomial
 			{
 				try
 				{
