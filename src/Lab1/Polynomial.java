@@ -119,3 +119,4 @@ class NotPolynomialException extends Exception {
 	private static final long serialVersionUID = -1204978569819425448L;
 	
 }
+//B1
