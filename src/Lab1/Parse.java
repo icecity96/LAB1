@@ -59,3 +59,11 @@ public class Parse {
 		return polynomial;
 	}
 }
+
+//B1
+
+
+//C4
+
+
+//B2
