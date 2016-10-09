@@ -125,3 +125,7 @@ class NotPolynomialException extends Exception {
 
 //C4
 
+
+
+//B2
+
