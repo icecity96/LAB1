@@ -3,44 +3,81 @@ package lab1;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-//项类
+
 public class Item {
+	private int coefficient;
+	private Map<String, Integer> variable;
+
 	public Item() {
-		variable = new HashMap<String,Integer>();
-		// TODO Auto-generated constructor stub
+		variable = new HashMap<String, Integer>();
 	}
-	public Map<String, Integer> getVariable() {
-		return variable;
-	}
-	public void setVariable(Map<String, Integer> variable) {
-		this.variable = new HashMap<String,Integer>(variable);
-	}
-	public int getCoefficient() {
+
+	public final int getCoefficient() {
 		return coefficient;
 	}
-	public void setCoefficient(int coefficient) {
+
+	public final Map<String, Integer> getVariable() {
+		return variable;
+	}
+
+	public final void setVariable(final Map<String, Integer> variable) {
+		this.variable = new HashMap<String, Integer>(variable);
+	}
+
+	public final void setCoefficient(final int coefficient) {
 		this.coefficient = coefficient;
 	}
-	
+
+	public final void add(final Item item) {
+		coefficient += item.coefficient;
+	}
+
+	public final boolean equals(final Item item) {
+		if (item.variable.size() != variable.size()) {
+			return false;
+		} else {
+			boolean flag = false;
+			int tmp1;
+			int tmp2;
+			for (Map.Entry<String, Integer> entry : variable.entrySet()) {
+				if (item.variable.containsKey(entry.getKey())) {
+					tmp1 = entry.getValue();
+					tmp2 = item.variable.get(entry.getKey());
+					if (tmp1 == tmp2) {
+						flag = true;
+						continue;
+					} else {
+						flag = false;
+						break;
+					}
+				} else {
+					flag = false;
+					break;
+				}
+			}
+			return flag;
+		}
+	}
+
 	@Override
-	public String toString() {
+	public final String toString() {
 		String result = new String();
 		if (coefficient != 1 && coefficient != -1) {
 			result += coefficient;
 		} else if (coefficient == -1) {
-			result += "-";
+			result += '-';
 		}
 		boolean first = true;
 		Set<Map.Entry<String, Integer>> set = variable.entrySet();
-		for ( Map.Entry<String, Integer> entry : set) {
+		for (Map.Entry<String, Integer> entry : set) {
 			String var = entry.getKey();
-			int		cof = entry.getValue().intValue();
-			if ( first == true) {
+			int cof = entry.getValue().intValue();
+			if (first == true) {
 				first = false;
 			} else {
 				result += "*";
 			}
-			if ( cof == 1) {
+			if (cof == 1) {
 				result += var;
 			} else {
 				result += (var + "^" + cof);
@@ -48,25 +85,4 @@ public class Item {
 		}
 		return result;
 	}
-	
-	@Override
-	public boolean equals(Object object){
-		if (!(object instanceof Item)) {
-			return false;
-		}
-		Item item = (Item)object;
-		return variable.equals(item.getVariable());
-	}
-	
-	public void add(Object object) {
-		if (object instanceof Item) {
-			Item item = (Item)object;
-			if ( this.equals(item)) {
-				coefficient += item.getCoefficient();
-			}
-		}
-	}
-	
-	private Map<String, Integer> variable; 
-	private int coefficient;
 }

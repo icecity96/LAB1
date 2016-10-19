@@ -17,7 +17,12 @@ public class Polynomial {
 		return polynomial;
 	}
 	public void setPolynomial(ArrayList<Item> polynomial) {
-		this.polynomial = new ArrayList<Item>(polynomial);
+		for (Item item : polynomial) {
+			Item item2 = new Item();
+			item2.setCoefficient(item.getCoefficient());
+			item2.setVariable(item.getVariable());
+			this.polynomial.add(item2);
+		}
 	}
 	
 	public void addItem(Item aItem) {
