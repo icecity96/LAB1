@@ -20,6 +20,7 @@ public class Main {
 				System.out.println(polynomial.simplify(ord1));
 			} else if (line.matches("^!d/d.*")) {
 				String ord2 = line.substring(4);
+				System.out.println(ord2);
 				System.out.println(polynomial.derivative(ord2));
 			} else {
 				try {
