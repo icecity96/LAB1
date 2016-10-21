@@ -10,8 +10,7 @@ public class Parse {
 		if (rawString.length() < 1) {
 			throw new NotPolynomialException();
 		}
-		Polynomial polynomial;
-		polynomial = new Polynomial();
+		Polynomial polynomial = new Polynomial();
 		if (rawString.charAt(rawString.length() - 1) == '+' || rawString.charAt(rawString.length() - 1) == '*'
 				|| rawString.charAt(rawString.length() - 1) == '-') {
 			throw new NotPolynomialException();
@@ -20,7 +19,7 @@ public class Parse {
 				.split("\\+");
 		int coff = 1;
 		final Map<String, Integer> variableElement = new HashMap<String, Integer>();
-		final String reg = "(?<cof>\\-?\\d*)(?<variable>[a-zA-Z]*)(?:\\^(?<exp>\\d*))?+";
+		final String reg = "(?<cof>\\-?\\d*)(?<variable>[a-zA-Z]*)(?:\\^(?<exp>\\d+))?+";
 		// String reg = "((?:\\-)?+\\num?+)(?:([a-zA-Z]+)((?:^)\\num)?+)?+";
 		final Pattern pattern = Pattern.compile(reg);
 		for (String string : itemString) {
@@ -31,12 +30,8 @@ public class Parse {
 			for (final String string2 : temp) {
 				final Matcher matcher = pattern.matcher(string2);
 				if (matcher.matches()) {
-					if (matcher.group("exp") != null && matcher.group("exp").isEmpty()) {
-						throw new NotPolynomialException();
-					}
 					if (matcher.group("variable").isEmpty()
-							&& (matcher.group("cof").isEmpty() || matcher.group("cof").equals("-"))
-							&& matcher.group("exp") != null) {
+							&& (matcher.group("cof").isEmpty())) {
 						throw new NotPolynomialException();
 					}
 					if (matcher.group("cof").equals("-") && matcher.group("variable").isEmpty()) {
@@ -50,8 +45,11 @@ public class Parse {
 							if (matcher.group("exp") != null) {
 								tempcof = (int) Math.pow(tempcof, Integer.parseInt(matcher.group("exp")));
 							}
-							coff *= tempcof;
-							// coff *= Integer.parseInt( matcher.group("cof"));
+							if (matcher.group("variable").isEmpty()) {
+								coff *= tempcof;
+							} else {
+								coff *= Integer.parseInt( matcher.group("cof"));
+							}
 						}
 					}
 					if (!matcher.group("variable").isEmpty()) {
