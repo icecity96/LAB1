@@ -2,7 +2,6 @@ package lab1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,10 +13,10 @@ public class Polynomial {
 		polynomial = new ArrayList<Item>();
 	}
 	
-	public List<Item> getPolynomial() {
+	public ArrayList<Item> getPolynomial() {
 		return polynomial;
 	}
-	public void setPolynomial(List<Item> polynomial) {
+	public void setPolynomial(ArrayList<Item> polynomial) {
 		for (Item item : polynomial) {
 			Item item2 = new Item();
 			item2.setCoefficient(item.getCoefficient());
@@ -43,16 +42,15 @@ public class Polynomial {
 	public String derivative(String var) {
 		Polynomial tempPolynomial = new Polynomial();
 		boolean hasVar = false;
-		for (final Item item : polynomial) {
+		for (Item item : polynomial) {
 			if (item.getVariable().get(var) != null) {
 				hasVar = true;
-				int cof = item.getCoefficient() 
-						* item.getVariable().get(var).intValue();
-				Map<String, Integer> variables = new HashMap<String, Integer>(item.getVariable());
+				int cof = item.getCoefficient()*item.getVariable().get(var).intValue();
+				Map<String, Integer> variables = new HashMap<String,Integer>(item.getVariable());
 				if (variables.get(var).intValue() == 1) {
 					variables.remove(var);
 				} else {
-					variables.put(var, variables.get(var).intValue() - 1);
+					variables.put(var, variables.get(var).intValue()-1);
 				}
 				Item newItem = new Item();
 				newItem.setCoefficient(cof);
@@ -60,45 +58,52 @@ public class Polynomial {
 				tempPolynomial.addItem(newItem);
 			}
 		}
-		if (hasVar == false) {
-			return "No such var " + var;
+		if ( hasVar == false) {
+			return "No such var "+var;
 		}
 		return tempPolynomial.toString();
 	}
+	
 	public String simplify(String string) {
+		
 		Polynomial tempPolynomial = new Polynomial();
 		tempPolynomial.setPolynomial(polynomial);
+		
 		String reg = "(?<var>[a-zA-Z]+)=(?<value>\\d+)";
 		Pattern pattern = Pattern.compile(reg);
 		Matcher matcher = pattern.matcher(string);
+		
 		while (matcher.find()) {
 			String var = matcher.group("var");
-			int value = Integer.parseInt(matcher.group("value"));
+			int 	value = Integer.parseInt(matcher.group("value"));
 			boolean hasVar = false;
 			for (Item item : tempPolynomial.getPolynomial()) {
 				if (item.getVariable().get(var) != null) {
 					hasVar = true;
 					int cof = (int) Math.pow(value, item.getVariable().get(var).intValue());
 					item.getVariable().remove(var);
-					item.setCoefficient(cof * item.getCoefficient());
+					item.setCoefficient(cof*item.getCoefficient());
 				}
 			}
-			if (hasVar == false) {
-				return "No such var: " + var;
+			if ( hasVar == false) {
+				return "No such var: "+var;
 			}
 		}
+		
 		Polynomial result = new Polynomial();
 		for (Item item : tempPolynomial.getPolynomial()) {
 			result.addItem(item);
 		}
 		return result.toString();
 	}
+	
+	
 	@Override
 	public String toString() {
-		String result = "";
+		String result = new String();
 		boolean firstItem = true;
 		for (Item item : polynomial) {
-			if (firstItem || item.getCoefficient() < 0) {
+			if ( firstItem || item.getCoefficient() < 0) {
 				firstItem = false;
 				result += item.toString();
 			} else {
@@ -107,7 +112,8 @@ public class Polynomial {
 		}
 		return result;
 	}
-	private List<Item> polynomial;
+	
+	private ArrayList<Item> polynomial;
 }
 
 //just tag
