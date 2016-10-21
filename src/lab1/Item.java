@@ -62,7 +62,9 @@ public class Item {
 	@Override
 	public final String toString() {
 		String result = new String();
-		if (coefficient != 1 && coefficient != -1) {
+		if (variable.isEmpty()) {
+			result += coefficient;
+		} else if (coefficient != 1 && coefficient != -1) {
 			result += coefficient;
 		} else if (coefficient == -1) {
 			result += '-';
