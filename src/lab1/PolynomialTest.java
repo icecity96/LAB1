@@ -21,4 +21,12 @@ public class PolynomialTest {
 	public void testDerivative() {
 		assertEquals("No such var y",polynomial.derivative("y"));
 	}
+	@Test
+	public void testDerivative2() {
+		assertEquals("3z^2",polynomial.derivative("x"));
+	}
+	@Test
+	public void testDerivative3() {
+		assertEquals("6x*z",polynomial.derivative("z"));
+	}
 }
